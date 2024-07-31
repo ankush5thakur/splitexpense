@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-// import { Button } from "./Button";
 
-export function FriendsList({ friends, onselection, selectFriend }) {
+export function FriendsList({ friends, onSelection, selectFriend }) {
   return (
     <ul>
       {friends.map((friend) => (
@@ -9,14 +8,14 @@ export function FriendsList({ friends, onselection, selectFriend }) {
           friend={friend}
           key={friend.id}
           selectFriend={selectFriend}
-          onselection={onselection}
+          onSelection={onSelection}
         />
       ))}
     </ul>
   );
 }
 
-function Friend({ friend, onselection, selectFriend }) {
+function Friend({ friend, onSelection, selectFriend }) {
   const isSelected = selectFriend && selectFriend.id === friend.id;
   return (
     <li className={isSelected ? "selected" : ""}>
@@ -32,8 +31,10 @@ function Friend({ friend, onselection, selectFriend }) {
           {friend.name} owes you ₹{Math.abs(friend.balance)}
         </p>
       )}
-      {friend.balance === 0 && <p>{friend.name} and you are even</p>}
-      <Button onClick={() => onselection(friend)}>
+      {friend.balance === 0 && (
+        <p className="blue">{friend.name} and you are even</p>
+      )}
+      <Button onClick={() => onSelection(friend)}>
         {isSelected ? "Close " : "Select"}
       </Button>
     </li>
@@ -90,7 +91,7 @@ export function FormAddFriend({ onAddFriend }) {
   );
 }
 
-export function FormSplitBill({ selectFriend, onSplitBIll }) {
+export function FormSplitBill({ selectFriend, onSplitBill }) {
   const [bill, setBill] = useState("");
   const [paidByUser, setPaidByUser] = useState("");
   const paidByFriend = bill ? bill - paidByUser : "";
@@ -100,7 +101,7 @@ export function FormSplitBill({ selectFriend, onSplitBIll }) {
     e.preventDefault();
 
     if (!bill || !paidByUser) return;
-    onSplitBIll(whoIsPaying === "user" ? paidByFriend : -paidByUser);
+    onSplitBill(whoIsPaying === "user" ? paidByFriend : -paidByUser);
   }
 
   return (
